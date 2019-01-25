@@ -157,12 +157,12 @@ class App extends Component {
     app.stage.addChild(gameScene);
 
     let gameOverScene = new Container(); //游戏结束容器
-    app.stage.addChild(gameOverScene);
+    app.stage.addChild(gameOverScene);  
     gameOverScene.visible = false;
 
     let gameController = new Container(); //游戏控制器容器
     app.stage.addChild(gameController);
-    
+
     loader
       .add("http://xueersiimg.xrspy.com/game1treasureHunter.json")
       .load(setup);
@@ -179,7 +179,7 @@ class App extends Component {
       id = PIXI.loader.resources["http://xueersiimg.xrspy.com/game1treasureHunter.json"].textures; //注册id
       treasure = new Sprite(id["treasure.png"]); //加载宝箱
       gameScene.addChild(treasure); //将宝箱添加到页面上
-      treasure.x = app.stage.width - treasure.width - 48;
+      treasure.x = app.stage.width - treasure.width - 48; //配置宝箱的位置
       treasure.y = app.stage.height / 2 - treasure.height / 2;
       gameScene.addChild(treasure); //配置页面属性
       let door = new Sprite(id["door.png"]); //加载门

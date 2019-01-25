@@ -162,7 +162,6 @@ class App extends Component {
 
     let gameController = new Container(); //游戏控制器容器
     app.stage.addChild(gameController);
-
     loader
       .add("http://xueersiimg.xrspy.com/game1treasureHunter.json")
       .load(setup);

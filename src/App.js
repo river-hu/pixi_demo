@@ -136,7 +136,7 @@ class App extends Component {
     let TextureCache = PIXI.utils.TextureCache
 
     var app = new Application({ //创建画布
-      width: 520,
+      width: 650,
       height: 520,
       antialias: true,  //抗锯齿
       transparent: false, //透明度
@@ -162,6 +162,7 @@ class App extends Component {
 
     let gameController = new Container(); //游戏控制器容器
     app.stage.addChild(gameController);
+
     loader
       .add("http://xueersiimg.xrspy.com/game1treasureHunter.json")
       .load(setup);
@@ -246,28 +247,106 @@ class App extends Component {
     message.x = 120;
     message.y = app.stage.height / 2 - 32;
     gameOverScene.addChild(message);
- 
-      //-------------------------------绘制难度设置--------------------------------------
+      
+      //-------------------------------绘制难度设置--------------------------------------------------------
+      // gameController
+      let roundBox = new PIXI.Graphics(); //绘制圆角矩形
+      roundBox.lineStyle(2, 0x8B4513, 1); //边框的样式
+      roundBox.beginFill(0xffffff); //背景颜色
+      roundBox.drawRoundedRect(0, 0, 50, 73, 10) //边框的大小以及倒角的大小
+      roundBox.endFill(); //绘制结束
+      roundBox.x = 525; //位置定位
+      roundBox.y = 2;
+      gameController.addChild(roundBox); //添加到页面上
+      let Controllerstyle = new PIXI.TextStyle({ //设置文字样式
+        fontFamily: "Futura",
+        fontSize: 16,
+        fill: "black"
+      });
+      let simp = new PIXI.Text("简单", Controllerstyle); 
+       simp.x = 9;
+       simp.y = 5;
+       let simp2 = new PIXI.Text("中等", Controllerstyle);
+       simp2.x = 9;
+       simp2.y = 25; 
+       let simp3 = new PIXI.Text("困难", Controllerstyle);
+       simp3.x = 9;
+       simp3.y = 45; 
+      roundBox.addChild(simp);
+      roundBox.addChild(simp2);
+      roundBox.addChild(simp3);
+      simp.interactive = true;
+      // Shows hand cursor
+      simp.buttonMode = true;
+      simp.on('click',onClick);
+      function onClick(){ //简单
+        blobs.forEach(function(blob,i) { 
+          let x = spacing * i + xOffset; //横向偏移距离
 
-      //------------------------------------------------------------------
+          //Give the blob a random y position
+          //(`randomInt` is a custom function - see below)
+          let y = randomInt(20, app.stage.height - blob.height - 35); //随机纵向距离
+  
+          //Set the blob's position
+          blob.x = x;
+          blob.y = y;
+          blob.vy = 3 * direction;
+          direction *= -1;
+        })
+      }
+      simp2.interactive = true;
+      // Shows hand cursor
+      simp2.buttonMode = true;
+      simp2.on('click',onClick2);
+      function onClick2(){ //中等
+        
+          blobs.forEach(function(blob,i) { 
+            let x = spacing * i + xOffset; //横向偏移距离
+  
+            //Give the blob a random y position
+            //(`randomInt` is a custom function - see below)
+            let y = randomInt(20, app.stage.height - blob.height - 35); //随机纵向距离
+    
+            //Set the blob's position
+            blob.x = x;
+            blob.y = y;
+            blob.vy = 6 * direction;
+            direction *= -1;
+          })
+      }
+      simp3.interactive = true;
+      // Shows hand cursor
+      simp3.buttonMode = true;
+      simp3.on('click',onClick3);
+      function onClick3(){ //复杂
+          blobs.forEach(function(blob,i) { 
+            let x = spacing * i + xOffset; //横向偏移距离
+            //Give the blob a random y position
+            //(`randomInt` is a custom function - see below)
+            let y = randomInt(20, app.stage.height - blob.height - 35); //随机纵向距离
+    
+            //Set the blob's position
+            blob.x = x;
+            blob.y = y;
+            blob.vy = 9 * direction;
+            direction *= -1;
+          })
+      }
+      //-------------------------------------------------------------------------------------------------------------------
       explorer.vx = 0;  //人物横向的速度
       explorer.vy = 0; //人物纵向的速度
       let state = null ;
       state = play;
       app.ticker.add(delta => gameLoop(delta)); //加载需要移动的动画
-
         function gameLoop(delta){ //移动刷新
-          state();
-          
+          state();     
         } 
-       
-        function play(delta){ //游戏执行的代码
-                
+        function play(delta){ //游戏执行的代码       
           //Move the cat 1 pixel
           explorer.x += explorer.vx;
           explorer.y += explorer.vy;
           let explorerHit = false; //怪物的碰撞检测
-          //----------------------------移动怪物----------------------------------------------------
+          //----------------------------移动怪物----------------------------------------------------             
           blobs.forEach(function(blob) { // 怪物循环检测
 
             //Move the blob
@@ -307,7 +386,7 @@ class App extends Component {
             } 
             if(explorerWall==='right'){
               explorer.vx = 0
-            } 
+            }  
             if(explorerWall==='top'){
               explorer.vy = 0
             } 

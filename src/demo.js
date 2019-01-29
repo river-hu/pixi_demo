@@ -14,7 +14,7 @@ class App extends Component {
       width: 800,
       height: 600,
       antialias: true,  //抗锯齿
-      transparent: false, //透明度
+      transparent: false, //透明度 
       resolution: 1.5,   //分辨率
       backgroundColor: 0xf1f1f1
     });
